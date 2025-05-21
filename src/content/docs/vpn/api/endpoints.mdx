@@ -1,7 +1,49 @@
 ---
-title: VPN | Endpoints
+title: VPN | API | Endpoints
 description: VPN endpoints.
 ---
 
+**Note:**
+You can find a comprehensive overview of all API endpoints across our project at [API Overview](../../getting-started/api-overview).
 
 
+### /generate-client
+This endpoint performs all necessary actions to create a new client
+and returns the OVPN configuration file.
+#### Example:
+```bash
+curl -X POST http://[host]:5000/generate-client -H '{x-api-key: [API-Key]}' --json {"client_name": "[client_name]", "ip": "[ip]"}
+```
+
+#### Parameters:
+- `client_name`: The name of the client to be created.
+- `ip`: The IP address of the client to be created.
+
+#### Response:
+```json
+{
+    "client_name": [client_name], 
+    "ovpn_config": [ovpn_content]
+}
+```
+
+
+### /remove-client
+This endpoint revokes the client certificate and removes all the client
+configurations.
+
+#### Example:
+```bash
+curl -X POST http://[host]:5000/remove-client -H '{x-api-key: [API-Key]}' --json {"client_name": "[client_name]", "ip": "[ip]"}
+```
+#### Parameters:
+- `client_name`: The name of the client to be removed.
+- `ip`: The IP address of the client to be removed.
+
+#### Response:
+```json
+{
+  "status": "success",
+  "message": "Client removed successfully"
+}
+```

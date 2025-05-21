@@ -1,0 +1,15 @@
+---
+title: API Overview
+description: Here all the different APIs and its Endpoints are listed.
+---
+
+
+
+## Endpoint
+Here are all the different API Endpoints listed.
+
+### VPN API
+| Endpoint           | Method | Description                                                                                    | Response                                                        |
+| ------------------ | ------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| `/generate-client` | POST   | Performs all necessary actions to create a new client and returns the OVPN configuration file. | `{"client_name": [client_name], "ovpn_config": [ovpn_content]}` |
+| `/remove-client`   | POST   | Revokes the client certificate and removes all the client configurations.                      | `{"message": f"Client {client_name} removed successfully"}`     |

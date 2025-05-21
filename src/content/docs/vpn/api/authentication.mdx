@@ -1,7 +1,28 @@
 ---
-title: VPN | Authentication
+title: VPN | API | Authentication
 description: VPN endpoints.
 ---
 
 
 
+To ensure that only authorized users can access the VPN API endpoints, 
+authentication is enforced using an API key. 
+
+The `X-API-Key` field in the request header is compared against a predefined 
+value stored in the `.env` file. This ensures that no unauthorized requests 
+can generate new clients or perform other actions.
+
+Authentication is implemented using Flask's `app.before_request` decorator, 
+which executes a function before every incoming request. 
+This function validates the API key and blocks any requests with invalid or missing keys.
+```python
+@app.before_request
+def authenticate_api_key():
+    api_key = request.headers.get('x-api-key')
+    if api_key != API_KEY:
+        return jsonify({'message': 'Unauthorized'}), 401
+```
+
+This key is stored in the `.env` file and is loaded into the application using the `dotenv` library.
+
+The same key is also stored in Game APIs `.env`, which is used to call the VPN API.
