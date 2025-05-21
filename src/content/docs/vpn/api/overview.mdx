@@ -1,5 +1,137 @@
 ---
-title: VPN | Endpoints
-description: VPN endpoints.
+title: API | Overview
+description: VPN API.
 ---
 
+The VPN API is responsible for automated Client creation and Client Revocation.
+In order for this to work, the API needs to have command line access to the VPN Server. So the API is not deployed via a Dockcer Container but via a Systemd service.
+In addition the API manages the iptable Rules to limit the users access in the Proxmox network.
+
+## Functions
+
+The API uses several functions to manage the API Requests:
+- **run_command(command):** Runs a command in the terminal and returns the output.
+- **create_iptable_rules(client_ip):** Calculates the game network IP using the client IP and sets the correct iptables rules to allow communication.
+- **remove_iptable_rules(client_ip):** Calculates the game network IP using the client IP and removes the iptables rules.
+- **generate_client(client_name, ip):** Generates a new client with all the necessary certificates.
+- **revoke_client_cert(client_name):** Revokes the client certificates.
+- **network_config(client_name, ip):** Generates network configuration for the client with a file under `/etc/openvpn/ccd/`.
+- **remove_network_config(client_name):** Removes the previously created network configuration file.
+- **create_ovpn_file(client_name):** Generates a configuration file for a client with all the needed certificates.
+
+
+## Iptables Rules
+
+To ensure that clients can only access the game they are actively playing, iptables rules must be added dynamically. 
+
+The VPN-Networks are mapped to the Game Networks as follows:
+```
+game_network: 10.2.X.1/24
+vpn_network: 10.12.X.1/24
+```
+- The second octet of the IP address is incremented by 10 to derive the VPN network from the game network.
+- The `X` in the IP address identifies the specific running game.
+
+
+### Connection Rules
+The VPN Server must allow communication between the following:
+- From `10.2.X.1` (Game Network) to `10.12.X.1` (VPN Network)
+- From `10.12.X.1` (VPN Network) to `10.2.X.1` (Game Network)
+
+### Rule Management
+- **One Rule Per Game:** Each game requires a single iptables rule.
+- **Two Clients Per Game:** Since there are two clients per game, the VPN API must ensure that:
+  - The iptables rules for a specific game are added only once, even if two clients are created in the same game network.
+  - The iptables rules are removed only when the last client in a game network is removed.
+
+To manage the iptables rules effectively, the VPN API keeps track of the number of clients in each game network using a dictionary:
+
+```
+client_count = {"<vpn-network>": <client_count>}
+```
+- The dictionary is updated whenever a client is created or revoked.
+- The iptables rules are added or removed based on the client count in the dictionary.
+
+
+## Client Creation
+
+To create a new client you first have to generate a client certificate:
+```bash
+/etc/openvpn/easy-rsa gen-req {client_name} nopass
+```
+
+Then you can sign the client certificate:
+```bash
+/etc/openvpn/easy-rsa sign-req client {client_name}
+```
+
+Then a netowrk configuration file is generated for the client with a file under `/etc/openvpn/ccd/`:
+```
+ifconfig-push {ip} 255.255.255.0
+push "route {net_id} 255.255.255.0
+```
+
+
+Then to generate the client configuration you first have to get the CA, Cert, Key and TLS Auth Key:
+```
+ca: /etc/openvpn/easy-rsa/pki/ca.crt
+cert: /etc/openvpn/easy-rsa/pki/issued/{client_name}.crt
+key: /etc/openvpn/easy-rsa/pki/private/{client_name}.key
+tls_auth: /etc/openvpn/ta.key
+```
+
+Then you can just use this template and insert all the values:
+```
+client
+dev tun
+proto udp
+remote {VPN_SERVER_IP} 1194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+remote-cert-tls server
+cipher AES-256-CBC
+key-direction 1
+verb 3
+<ca>
+{ca}
+</ca>
+<cert>
+{cert}
+</cert>
+<key>
+{key}
+</key>
+<tls-auth>
+{tls_auth}
+</tls-auth>
+```
+
+Then if it is the first client in the game network, the iptables rules are added:
+```bash
+iptables -A FORWARD -s {game_network} -d {vpn_network} -j ACCEPT
+iptables -A FORWARD -s {vpn_network} -d {game_network} -j ACCEPT
+```
+
+## Client Revocation
+To revoke a client certificate you can use the following command:
+```bash
+/etc/openvpn/easy-rsa revoke {client_name}
+```
+
+Then you have to generate a new CRL:
+```bash
+/etc/openvpn/easy-rsa gen-crl
+```
+
+Then you have to remove the network configuration file:
+```python
+os.remove(f"/etc/openvpn/ccd/{client_name}")
+```
+
+Then if it is the last client in the game network, the iptables rules are removed:
+```bash
+iptables -D FORWARD -s {game_network} -d {vpn_network} -j ACCEPT
+iptables -D FORWARD -s {vpn_network} -d {game_network} -j ACCEPT
+```
