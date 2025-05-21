@@ -1,0 +1,47 @@
+/* Dark mode colors. */
+:root {
+	--hero-brightness: 100%;
+	--sl-color-accent-low: #2f1d3f; /*done*/
+	--sl-color-accent: #d4af37;
+	--sl-color-accent-high: #bcbbab; /*done*/
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #c5ccd6;
+	--sl-color-gray-2: #96a0ab;
+	--sl-color-gray-3: #5e6b7a;
+	--sl-color-gray-4: #36404d;
+	--sl-color-gray-5: #1f2731;
+	--sl-color-gray-6: #0e1722;
+	--sl-color-black: #221f3e; /*done*/
+}
+
+/* Light mode colors. */
+:root[data-theme='light'] {
+	--hero-brightness: 100%;
+	--sl-color-accent-low: #e2e2e2;
+	--sl-color-accent: #2f1d3f;
+	--sl-color-accent-high: #2e2416;
+	--sl-color-white: #2f1d3f;
+	--sl-color-gray-1: #212934;
+	--sl-color-gray-2: #303845;
+	--sl-color-gray-3: #485260;
+	--sl-color-gray-4: #666f7d; 
+	--sl-color-gray-5: #8e969f;
+	--sl-color-gray-6: #c0c5cc;
+	--sl-color-gray-7: #d1d6db;
+	--sl-color-black: #e9e9e9;
+}
+
+[data-has-hero] .page {
+	background:
+		linear-gradient(215deg, var(--sl-color-accent-low), transparent 40%),
+		radial-gradient(var(--sl-color-accent-low), transparent 40%) no-repeat -60vw -40vh / 105vw 200vh,
+		radial-gradient(var(--sl-color-accent-low), transparent 65%) no-repeat 50% calc(100% + 20rem) /
+			60rem 30rem;
+}
+
+[data-has-hero] header {
+	border-bottom: 1px solid transparent;
+	background-color: transparent;
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+}
