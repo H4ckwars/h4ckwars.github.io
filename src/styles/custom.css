@@ -1,34 +1,34 @@
 /* Dark mode colors. */
 :root {
-	--hero-brightness: 100%;
-	--sl-color-accent-low: #2f1d3f; /*done*/
-	--sl-color-accent: #d4af37;
-	--sl-color-accent-high: #bcbbab; /*done*/
-	--sl-color-white: #ffffff;
-	--sl-color-gray-1: #c5ccd6;
-	--sl-color-gray-2: #96a0ab;
-	--sl-color-gray-3: #5e6b7a;
-	--sl-color-gray-4: #36404d;
-	--sl-color-gray-5: #1f2731;
-	--sl-color-gray-6: #0e1722;
-	--sl-color-black: #221f3e; /*done*/
+    --hero-brightness: 100%;
+    --sl-color-accent-low: #0B121F; /* Dark blue */
+    --sl-color-accent: #9FEF00; /* Vibrant green */
+    --sl-color-accent-high: #9FEF00; /* Light gray-blue */
+    --sl-color-white: #FAFAFA; /* White */
+    --sl-color-gray-1: #9AA3B2; /* Light gray-blue */
+    --sl-color-gray-2: #7A8494; /* Medium gray-blue */
+    --sl-color-gray-3: #5A6474; /* Gray-blue */
+    --sl-color-gray-4: #3A4454; /* Dark gray-blue */
+    --sl-color-gray-5: #1A2434; /* Very dark blue */
+    --sl-color-gray-6: #0B121F; /* Dark blue */
+    --sl-color-black: #050A14; /* Near-black blue */
 }
 
 /* Light mode colors. */
 :root[data-theme='light'] {
-	--hero-brightness: 100%;
-	--sl-color-accent-low: #e2e2e2;
-	--sl-color-accent: #2f1d3f;
-	--sl-color-accent-high: #2e2416;
-	--sl-color-white: #2f1d3f;
-	--sl-color-gray-1: #212934;
-	--sl-color-gray-2: #303845;
-	--sl-color-gray-3: #485260;
-	--sl-color-gray-4: #666f7d; 
-	--sl-color-gray-5: #8e969f;
-	--sl-color-gray-6: #c0c5cc;
-	--sl-color-gray-7: #d1d6db;
-	--sl-color-black: #e9e9e9;
+    --hero-brightness: 100%;
+    --sl-color-accent-low: #FAFAFA;
+    --sl-color-accent: #0B121F;
+    --sl-color-accent-high: #9FEF00;
+    --sl-color-white: #0B121F; /* Dark text in light mode */
+    --sl-color-gray-1: #E6E9EE;
+    --sl-color-gray-2: #D0D5DD;
+    --sl-color-gray-3: #9AA3B2;
+    --sl-color-gray-4: #64748B;
+    --sl-color-gray-5: #334155;
+    --sl-color-gray-6: #0B121F;
+    --sl-color-gray-7: #E6E9EE;
+    --sl-color-black: #FAFAFA;
 }
 
 [data-has-hero] .page {

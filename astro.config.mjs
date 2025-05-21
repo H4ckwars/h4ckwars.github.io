@@ -18,10 +18,59 @@ export default defineConfig({
 			  ],
 			sidebar: [
 				{
-					label: 'Placeholder',
+					label: 'Getting Started', link: 'overview',
+				},
+				{
+					label: 'Infrastructure',
 					items: [
-						{ label: 'Example MDX', link: 'placeholder/helloworld' },
+						{ label: 'Overview', link: '/infrastructure/overview' },
+						{
+							label: 'Core',
+							items: [
+								{ label: 'Overview', link: '/infrastructure/core/overview' },
+							]
+						},
+						{
+							label: 'Proxmox',
+							items: [
+								{ label: 'Overview', link: '/infrastructure/proxmox/overview' },
+							]
+						},
+					]
+				},
+				{
+					label: 'Webapp',
+					items: [
+						{ label: 'Overview', link: '/webapp/overview' },
+						{
+							label: 'Frontend',
+							items: [
+								{label: 'Overview', link: '/webapp/frontend/overview'},
+							]
+						},
 					],
+				},
+				{
+					label: 'VPN Server',
+					items: [
+						{ label: 'Overview', link: '/vpn/overview' },
+						{ 
+							label: 'API',
+							items: [
+								{ label: 'Overview', link: '/vpn/api/overview' },
+								{ label: 'Endpoints', link: '/vpn/api/endpoints' },
+								{ label: 'Authentication', link: '/vpn/api/authentication'}
+							]
+						},
+						{ 
+							label: 'OpenVPN',
+							items: [
+								{ label: 'Overview', link: '/vpn/openvpn/overview' },
+								{ label: 'Installation', link: '/vpn/openvpn/installation' },
+								{ label: 'Configuration', link: '/vpn/openvpn/configuration' },
+							]
+						},
+					]
 				},
 			],
 		}),
