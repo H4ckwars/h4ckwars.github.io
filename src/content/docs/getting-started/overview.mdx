@@ -1,12 +1,62 @@
 ---
-title: Example Reference
+title: Hackwars
 description: A reference page in my new Starlight docs site.
 ---
 
-Reference pages are ideal for outlining how things work in terse and clear terms.
-Less concerned with telling a story or addressing a specific use case, they should give a comprehensive outline of what you're documenting.
+Hackwars is a real-time, 1v1 cybersecurity game that combines both attack and defense elements. 
+Each player is assigned a vulnerable server to protect while simultaneously attempting to 
+exploit their opponent's server. Inspired by Capture-the-Flag (CTF) challenges, Hackwars 
+provides a competitive and dynamic platform for testing offensive and defensive hacking skills.
 
-## Further reading
+## Platform Features
 
-- Read [about reference](https://diataxis.fr/reference/) in the Diátaxis framework
+- **Real-Time Gameplay**: Players compete live in a 1v1 attack-and-defense scenario
+- **Dynamic VM Management**: Virtual machines are automatically started, stopped, and removed for each game session
+- **VPN Integration**: Each player receives a secure OVPN config to access the isolated game network
+- **Admin Panel**: Tools for managing challenges, users, and monitoring system status
+- **Dynamic Vulnerability Selection**: Vulnerabilities are selected automatically based on difficulty and randomness
 
+
+## Technical Architecture
+Our project consists of several components:
+- **WebServer**: Interface for users and admins
+- **Database**: MySQL database for storing all data. Links the WebServer and the GameEngine together.
+- **Game Engine**: Core component of the project. Manages game creation, selects vulns, calls the Game-API to start games, calls Healthcheck API Endpoints, ...
+- **Game API**: Starts and deletes games via the Proxmox VE API. Also creates and removes VPN clients via the VPN API
+- **Proxmox Server**: VMs are created here via the Proxmox VE API. Also hosts the VPN server and Healthcheck service
+- **VPN Server**: Provides OpenVPN server and an API, which handles creation and deletion of VPN clients
+- **Healthcheck**: Checks if the game VMs are running and if the vulnerable services on these VMs are still operational
+
+
+## GamePlay
+
+Hackwars is played in a 1v1 format, where each player has their own server to protect.
+Each server has a dynamic set of vulnerabilities that players can exploit.
+There are two types of vulnerabilities:
+- **access**: These vulnerabilities are used to gain access to the target server. They always result in some kind of shell on the target server.
+- **privilege escalation**: These vulnerabilities are used to gain root privileges on the target server. They always result in a root shell on the target server.
+
+Access vulnerabilities typically rely on a specific service running on the target server. 
+This service must remain operational for the entire game.
+
+
+Upon a Game Start each player receives the following information:
+- **OVPN Config**: A configuration file for OpenVPN, which allows the player to connect to the game network.
+- **Server IP**: The IP address of the player's own server.
+- **Username & Password**: The username and password for the player's own server.
+- **Target IP**: The IP address of the target server.
+
+Then the players can either attack the target server or defend their own server (with patching vulnerabilities).
+
+### Patching Vulnerabilities
+Vulnerabilities are mostly implemented via misconfigurations of services or applications.
+To Patch Vulnerabilities the player must find those misconfigurations and fix them.
+
+### Win Condition
+To win the game, a player must perform a complete attack path on the target machine and gain root access.
+For this a minimum of 2 vulnerabilities must be exploited (access & privesc). Then the Player can read out the flag on the target machine under `/root/flag.txt`.
+This flag can be submitted via the WebServer to win the Game.
+
+### Disqualifications
+A Player is disqualified if any service on his machine is not accessible anymore. Then the Game is instantly deleted, and the
+Oppenent wins the Game.
