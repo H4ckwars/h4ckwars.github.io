@@ -1,4 +1,23 @@
 ---
-title: Placeholder
+title: VPN | OpenVPN | Overview
 description: Placeholder
 ---
+
+
+The OpenVPN Service makes the users able to connect to the Game Network via VPN.
+For this the Proxmox server has Port Forewarding enabled for the OpenVPN service (Port 1194).
+
+How exactly this VPN service works is explained in the official OpenVPN documentation:
+[OpenVPN Documentation](https://openvpn.net/community-resources/how-to/#how-does-openvpn-work)
+
+### Important folders
+- **/etc/openvpn/easy-rsa**: This is the folder that contains all the Easy-RSA tools. It is used to generate the necessary certificates and keys for the OpenVPN server and clients.
+- **/etc/openvpn/easy-rsa/pki**: This is the folder that contains all the generated certificates and keys from the Server.
+- **/etc/openvpn/easy-rsa/pki/issued**: This is the folder that contains all the issued certificates from the clients.
+- **/etc/openvpn/easy-rsa/pki/private**: This is the folder that contains all the private keys from the clients.
+
+### Important files
+- **/etc/openvpn/server.conf**: This is the main configuration file for the OpenVPN server. It contains all the necessary settings for the server to run.
+- **/etc/openvpn/easy-rsa/pki/ca.crt**: This is the CA certificate. It is used to sign the server and client certificates.
+- **/etc/openvpn/easy-rsa/pki/dh.pem**: This is the Diffie-Hellman parameters file. It is used to establish a secure connection between the server and clients.
+- **/etc/openvpn/easy-rsa/pki/ta.key**: This is the TLS authentication key. It is used to add an additional layer of security to the OpenVPN connection.

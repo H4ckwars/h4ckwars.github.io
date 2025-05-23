@@ -70,8 +70,7 @@ export default defineConfig({
 							label: 'OpenVPN',
 							items: [
 								{ label: 'Overview', link: '/vpn/openvpn/overview' },
-								{ label: 'Installation', link: '/vpn/openvpn/installation' },
-								{ label: 'Configuration', link: '/vpn/openvpn/configuration' },
+								{ label: 'Installation & Setup', link: '/vpn/openvpn/setup' },
 							]
 						},
 					]
