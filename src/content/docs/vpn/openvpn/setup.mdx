@@ -2,3 +2,91 @@
 title: VPN | OpenVPN | Installation & Setup
 description: Placeholder
 ---
+
+
+For this whole setup, a setup script was created. You can find this setup script in our [Git Repository](https://github.com/H4ckwars/VPN-Server)
+
+
+## Setup
+
+First all needed packages are installed:
+```bash
+sudo apt install -y openvpn easy-rsa
+sudo apt install -y python3-dotenv
+```
+
+Then the Certificate Authority is build:
+```bash
+/etc/openvpn/easy-rsa/easyrsa build-ca nopass
+```
+
+Now the Request and Keys can be Generated:
+```bash
+/etc/openvpn/easy-rsa/easyrsa gen-req "game_vpn" nopass
+```
+
+Then the Diffie-Hellman Parameters are generated:
+```bash
+/etc/openvpn/easy-rsa/easyrsa gen-dh
+```
+
+Then the Server Certificate is signed:
+```bash
+/etc/openvpn/easy-rsa/easyrsa sign-req server "game_vpn"
+```
+
+Then the Certificate Revocation List (CRL) is being generated:
+```bash
+/etc/openvpn/easy-rsa/easyrsa gen-crl
+```
+
+Then a static Key is generated for the TLS Authentication:
+```bash
+sudo openvpn --genkey secret ta.key
+```
+
+Finally the OpenVPN server is beeing enabled and started:
+```bash
+sudo systemctl enable openvpn@game_vpn
+sudo systemctl start openvpn@game_vpn
+```
+
+## Configuration
+
+
+The whole config of an OpenVPN server is stored in the file `/etc/openvpn/<server_name>.conf`.
+This is how our OpenVPN configuration file looks like:
+
+```
+port 1194
+proto udp
+dev tun
+
+ca ca.crt
+cert game_vpn.crt
+key game_vpn.key
+
+dh dh.pem
+crl-verify /etc/openvpn/easy-rsa/pki/crl.pem
+
+server 10.8.0.0 255.255.255.0
+
+ifconfig-pool-persist /var/log/openvpn/ipp.txt
+
+client-config-dir ccd
+
+keepalive 10 120
+tls-auth ta.key 0
+cipher AES-256-CBC
+persist-key
+persist-tun
+
+status /var/log/openvpn/openvpn-status.log
+log         /var/log/openvpn/openvpn.log
+log-append  /var/log/openvpn/openvpn.log
+
+verb 3
+
+explicit-exit-notify 1
+```
+
