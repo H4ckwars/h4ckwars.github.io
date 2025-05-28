@@ -70,6 +70,12 @@ export default defineConfig({
 					label: 'Game Engine',
 					items: [
 						{ label: 'Game Engine | Overview', link: '/gameengine/overview' },
+						{ 
+							label: 'Components',
+							items: [
+								{ label: 'Components | Main', link: '/gameengine/components/main' }
+							]
+						},
 					]
 				},
 				{

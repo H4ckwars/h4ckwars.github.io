@@ -4,3 +4,65 @@ description: Overview of the Game Engine.
 ---
 
 
+The Game Engine is the core component of our Project.
+It manages the Game Creation and Deletion and saves all relevant data in the database.
+
+
+## Components
+The Game Engine consists of several components:
+- **main.py:** The main entry point of the Game Engine. It just starts the init and cleanup loop.
+- **inititiator.py:** The initialization loop that looks for new games in the DB and starts the "create_game" function.
+- **cleanup.py:** The cleanup loop that checks for finished games in the DB and starts the "remove_game" function.
+- **create_game.py:** Contains the function that is called from the init loop, it handles the next steps of the game creation process.
+- **remove_game.py:** Contains the function that is called from the cleanup loop, it handles the next steps of the game deletion process. 
+- **game.py:** The Game class that manages the game state and logic. It also contains all machines which are part of the Game
+- **machine.py:** The Machine class that represents a single machine in the game. It contains the all the relevant data for a machine.
+- **healthcheck.py:** The healthcheck module is responsible for the healthcheck logic, and the API Calls to the Healthcheck Server.
+
+
+## Game Creation Process
+
+For the Game Creation the following steps are made:
+
+1. **New Game Entry in the Database**
+   - A new game is created through the webserver, which inserts a corresponding entry into the database.
+   - This game is initially marked with the status `"pending"`.
+
+2. **Initialization Loop**
+   - A background loop continuously checks the database for games with the `"pending"` status.
+   - Once such a game is detected, the `create_game()` function is triggered.
+
+3. **Creating the Game Object**
+   - The `create_game()` function instantiates a new `Game` object.
+   - It then immediately calls the `start_game()` method of this object to begin the setup process.
+
+4. **Initializing Machines**
+   - Within the `start_game()` method, the required machines for the game are created.
+   - For each machine, the `start_machine()` method is called.
+
+5. **Machine Configuration**
+   - The `start_machine()` method handles the individual machine setup:
+     - It selects vulnerabilities.
+     - Generates a flag.
+     - Generates a Password.
+     - Starts the Healthcheck logic.
+6. **Starting the Virtual Machines**
+   - Once all machines have been configured, `start_game()` calls the `start_VMs()` method from the `Game` class.
+   - This method is responsible for sending an API request to start the virtual machines (VMs).
+
+7. **Finalizing Setup**
+   - After the VMs are successfully started, the system receives an OpenVPN configuration file via the API response.
+   - Using this configuration and the machine-specific data, the machines are recorded in the database.
+
+8. **Activating the Game**
+   - Finally, the game’s status in the database is updated from `"pending"` to `"running"`, indicating that the game is fully set up and ready to be played.
+
+
+## Game Deletion Process
+For the Game Deletion the following steps are made:
+- **Game Deletion Request**
+  - A game is deleted through the webserver, which updates the game entry in the database to have the status `"stopping"`.
+- **Cleanup Loop**
+    - A background loop continuously checks the database for games with the `"stopping"` status.
+    - Once such a game is detected, the `stop_game()` function is triggered.
+- **Removing the Machines**
