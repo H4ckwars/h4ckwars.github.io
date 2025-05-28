@@ -2,3 +2,48 @@
 title: Webapp | Overview
 description: Overview of the webapp.
 ---
+
+The WebApp allows users to start a game. In the lobby, users can choose to either leave at any time or ready up to begin the game. Once the game starts, the relevant connection details are displayed, allowing users to join using the provided information. Administrators have the ability to manage active games, including banning users and terminating ongoing sessions.
+
+## Core Features
+
+The WebApp provides the following core features:
+
+- Users can initiate new game sessions  
+- All necessary game information is displayed for easy connection  
+- Administrators can manage ongoing games and user access  
+- The game's timeline can be traced through detailed logs  
+- User authentication is handled via Azure, restricting access to students of HTL Villach  
+
+## How to Set Up
+
+To deploy the WebApp, you first need to install the Node.js dependencies. Run the following command in the folder where the `package.json` file is located:
+
+```sh
+npm install
+```
+
+If Node.js isn't installed, you can download it from the [Nodejs Website](https://nodejs.org/en/download).
+
+To verify your installation, run:
+```sh
+node --version
+```
+
+You should see output similar to this:
+```sh
+v23.9.0
+```
+
+## Deploying the WebApp
+To start the Next.js project in development mode, run:
+```sh
+npm run dev
+```
+
+<div style="border-left: 4px solid red; padding: 1em; background-color: #220000; border-radius: 4px;">
+  <strong style="color: white;">Important:</strong>
+  <div>Note that this command should only used if you're deploying locally</div>
+</div>
+
+If you're deploying onto an production server make sure to use `npm run build` instead.
