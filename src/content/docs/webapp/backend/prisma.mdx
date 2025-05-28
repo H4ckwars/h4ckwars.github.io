@@ -1,0 +1,42 @@
+---
+title: Backend | Prisma
+description: Basic Prisma Setup.
+---
+
+## Database Integration
+The database connection is managed using Prisma, which provides a clean and efficient ORM interface. Prisma also protects the system against SQL injection attacks by safely handling query parameters and abstracting direct SQL execution.
+
+### Initialize Prisma
+```ts
+// lib/db.ts
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+export default prisma;
+```
+
+### Update the Database Using Prisma
+```ts
+// api/updateReady/route.ts
+// Example update function similar to the one used in api/updateReady
+async function updateUserStatus(userId: string, ready: boolean) {
+  const updatedUser = await prisma.users_in_game.update({
+    where: { user_id: userId },
+    data: { ready: ready },
+  });
+  return updatedUser;
+}
+```
+
+
+### Update Prisma Schema from the Database
+If the database schema was changed manually or through a migration, you can synchronize your Prisma schema file and regenerate the Prisma client like so:
+
+```sh
+# Pull the updated schema from the database
+npx prisma db pull
+
+# Generate an updated Prisma Client based on the new schema
+npx prisma generate
+```

@@ -56,6 +56,9 @@ export default defineConfig({
 							label: 'Backend',
 							items: [
 								{ label: 'Backend | Overview', link: '/webapp/backend/overview' },
+								{ label: 'Backend | Prisma', link: '/webapp/backend/prisma' },
+								{ label: 'Backend | APIs', link: '/webapp/backend/apis' },
+								{ label: 'Backend | Logging', link: '/webapp/backend/logs' },
 							]
 						},
 					],
