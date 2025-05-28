@@ -52,10 +52,28 @@ export default defineConfig({
 								{label: 'Overview', link: '/webapp/frontend/overview'},
 							]
 						},
+						{
+							label: 'Backend',
+							items: [
+								{ label: 'Overview', link: '/webapp/backend/overview' },
+							]
+						},
 					],
 				},
+				{ 
+					label: 'Game API',
+					items: [
+						{ label: 'Overview', link: '/gameapi/overview' },
+					]
+				},
 				{
-					label: 'VPN Server',
+					label: 'Game Engine',
+					items: [
+						{ label: 'Overview', link: '/gameengine/overview' },
+					]
+				},
+				{
+					label: 'VPN',
 					items: [
 						{ label: 'Overview', link: '/vpn/overview' },
 						{ 
@@ -75,6 +93,12 @@ export default defineConfig({
 						},
 					]
 				},
+				{
+					label: 'Healthcheck',
+					items: [
+						{ label: 'Overview', link: '/healthcheck/overview' },
+					]
+				}
 			],
 		}),
 	],
