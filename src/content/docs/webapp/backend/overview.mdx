@@ -3,3 +3,49 @@ title: Backend | Overview
 description: Overview of the webapp.
 ---
 
+## Folder Structure
+The main component of the backend are in the lib and api folder. Both folders are required to make the database connection and a essential for the functionallity.
+
+```sh
+├── app
+│   └── api
+│       ├── adminBanUser
+│       ├── adminForceCloseGame
+│       │   └── [gameId]
+│       ├── adminGetGames
+│       │   ├── [gameId]
+│       ├── adminGetSingleGame
+│       │   └── [gameId]
+│       ├── adminGetUsers
+│       ├── adminUnbanUser
+│       ├── auth
+│       │   └── [...nextauth]
+│       ├── checkGameState
+│       ├── checkReady
+│       ├── createGame
+│       ├── download
+│       ├── endGame
+│       ├── getGames
+│       ├── getStats
+│       ├── getUserRole
+│       ├── joinGame
+│       ├── leaderboard
+│       ├── leaveGame
+│       ├── leaveLobby
+│       ├── opponentStats
+│       ├── updateLobby
+│       ├── updateReady
+│       ├── userInGame
+│       └── yourStats
+├── components
+├── constants
+└── lib
+    ├── db.ts
+    ├── logger.ts
+    └── utils.ts
+```
+
+## Database Integration
+## Logging
+## Example Env
+
