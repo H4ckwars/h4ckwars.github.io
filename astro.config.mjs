@@ -27,17 +27,17 @@ export default defineConfig({
 				{
 					label: 'Infrastructure',
 					items: [
-						{ label: 'Overview', link: '/infrastructure/overview' },
+						{ label: 'Infrastructure | Overview', link: '/infrastructure/overview' },
 						{
 							label: 'Core',
 							items: [
-								{ label: 'Overview', link: '/infrastructure/core/overview' },
+								{ label: 'Core | Overview', link: '/infrastructure/core/overview' },
 							]
 						},
 						{
 							label: 'Proxmox',
 							items: [
-								{ label: 'Overview', link: '/infrastructure/proxmox/overview' },
+								{ label: 'Proxmox | Overview', link: '/infrastructure/proxmox/overview' },
 							]
 						},
 					]
@@ -45,17 +45,17 @@ export default defineConfig({
 				{
 					label: 'Webapp',
 					items: [
-						{ label: 'Overview', link: '/webapp/overview' },
+						{ label: 'Webapp | Overview', link: '/webapp/overview' },
 						{
 							label: 'Frontend',
 							items: [
-								{label: 'Overview', link: '/webapp/frontend/overview'},
+								{label: 'Frontend | Overview', link: '/webapp/frontend/overview'},
 							]
 						},
 						{
 							label: 'Backend',
 							items: [
-								{ label: 'Overview', link: '/webapp/backend/overview' },
+								{ label: 'Backend | Overview', link: '/webapp/backend/overview' },
 							]
 						},
 					],
@@ -63,32 +63,32 @@ export default defineConfig({
 				{ 
 					label: 'Game API',
 					items: [
-						{ label: 'Overview', link: '/gameapi/overview' },
+						{ label: 'Game API | Overview', link: '/gameapi/overview' },
 					]
 				},
 				{
 					label: 'Game Engine',
 					items: [
-						{ label: 'Overview', link: '/gameengine/overview' },
+						{ label: 'Game Engine | Overview', link: '/gameengine/overview' },
 					]
 				},
 				{
 					label: 'VPN',
 					items: [
-						{ label: 'Overview', link: '/vpn/overview' },
+						{ label: 'VPN | Overview', link: '/vpn/overview' },
 						{ 
 							label: 'API',
 							items: [
-								{ label: 'Overview', link: '/vpn/api/overview' },
-								{ label: 'Endpoints', link: '/vpn/api/endpoints' },
-								{ label: 'Authentication', link: '/vpn/api/authentication'}
+								{ label: 'API | Overview', link: '/vpn/api/overview' },
+								{ label: 'API | Endpoints', link: '/vpn/api/endpoints' },
+								{ label: 'API | Authentication', link: '/vpn/api/authentication'}
 							]
 						},
 						{ 
 							label: 'OpenVPN',
 							items: [
-								{ label: 'Overview', link: '/vpn/openvpn/overview' },
-								{ label: 'Installation & Setup', link: '/vpn/openvpn/setup' },
+								{ label: 'OpenVPN | Overview', link: '/vpn/openvpn/overview' },
+								{ label: 'OpenVPN | Installation & Setup', link: '/vpn/openvpn/setup' },
 							]
 						},
 					]
@@ -96,7 +96,7 @@ export default defineConfig({
 				{
 					label: 'Healthcheck',
 					items: [
-						{ label: 'Overview', link: '/healthcheck/overview' },
+						{ label: 'Healthcheck | Overview', link: '/healthcheck/overview' },
 					]
 				}
 			],
