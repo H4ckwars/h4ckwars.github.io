@@ -1,4 +1,372 @@
 ---
 title: Backend | API Overview
-description: Overview about the functionallity of each API.
+description: Overview about the functionality of each API.
 ---
+
+# Backend API Overview
+
+This document provides an overview of the available backend API endpoints in the `src/app/api` folder. Each endpoint is implemented as a route and typically expects a POST or GET request. Authentication is handled via NextAuth and JWT tokens for most endpoints.
+
+---
+
+## Authentication
+
+### /api/auth/[...nextauth]
+- **Purpose:** Handles authentication using Azure AD via NextAuth.
+- **Methods:** `GET`, `POST`
+- **Details:** Manages login, session, and JWT token callbacks.
+
+---
+
+## Game Management
+
+### /api/createGame
+- **Purpose:** Create a new game session.
+- **Method:** `POST`
+- **Auth:** Required
+- **Request:**  
+  ```json
+  {}
+  ```
+- **Response:**  
+  ```json
+  {
+    "success": true,
+    "gameId": "string",
+    "message": "Game created"
+  }
+  ```
+
+### /api/joinGame
+- **Purpose:** Join an existing game.
+- **Method:** `POST`
+- **Auth:** Required
+- **Request:**  
+  ```json
+  {
+    "gameId": "string"
+  }
+  ```
+- **Response:**  
+  ```json
+  {
+    "success": true,
+    "message": "Joined game"
+  }
+  ```
+
+### /api/leaveGame
+- **Purpose:** Leave and end the current game.
+- **Method:** `POST`
+- **Auth:** Required
+- **Request:**  
+  ```json
+  {}
+  ```
+- **Response:**  
+  ```json
+  {
+    "success": true,
+    "message": "Left game"
+  }
+  ```
+
+### /api/endGame
+- **Purpose:** End a game by submitting the correct flag.
+- **Method:** `POST`
+- **Auth:** Required
+- **Request:**  
+  ```json
+  {
+    "machine_id": 1,
+    "flag": "string",
+    "game_id": "string"
+  }
+  ```
+- **Response:**  
+  ```json
+  {
+    "success": true,
+    "message": "Game ended"
+  }
+  ```
+
+### /api/getGames
+- **Purpose:** List available games.
+- **Method:** `GET`
+- **Auth:** Not required
+- **Response:**  
+  ```json
+  [
+    {
+      "gameId": "string",
+      "status": "waiting" // or "active", "ended"
+    }
+  ]
+  ```
+
+---
+
+## Lobby Management
+
+### /api/updateLobby
+- **Purpose:** Get or update the lobby state.
+- **Method:** `GET`
+- **Auth:** Required
+- **Response:**  
+  ```json
+  {
+    "users": [
+      { "userId": "string", "ready": true }
+    ]
+  }
+  ```
+
+### /api/leaveLobby
+- **Purpose:** Leave the game lobby.
+- **Method:** `POST`
+- **Auth:** Required
+- **Request:**  
+  ```json
+  {}
+  ```
+- **Response:**  
+  ```json
+  {
+    "success": true,
+    "message": "Left lobby"
+  }
+  ```
+
+### /api/updateReady
+- **Purpose:** Update the user's ready status in the lobby.
+- **Method:** `POST`
+- **Auth:** Required
+- **Request:**  
+  ```json
+  {
+    "ready": true
+  }
+  ```
+- **Response:**  
+  ```json
+  {
+    "success": true,
+    "ready": true
+  }
+  ```
+
+### /api/checkReady
+- **Purpose:** Check if all users in the lobby are ready.
+- **Method:** `POST`
+- **Auth:** Required
+- **Request:**  
+  ```json
+  {}
+  ```
+- **Response:**  
+  ```json
+  {
+    "allReady": true
+  }
+  ```
+
+---
+
+## Game State & Stats
+
+### /api/checkGameState
+- **Purpose:** Get the current state of the user's game.
+- **Method:** `GET`
+- **Auth:** Required
+- **Response:**  
+  ```json
+  {
+    "state": "active",
+    "gameId": "string"
+  }
+  ```
+
+### /api/userInGame
+- **Purpose:** Check if the user is currently in a game.
+- **Method:** `GET`
+- **Auth:** Required
+- **Response:**  
+  ```json
+  {
+    "inGame": true,
+    "gameId": "string"
+  }
+  ```
+
+### /api/getStats
+- **Purpose:** Get global game statistics.
+- **Method:** `GET`
+- **Auth:** Not required
+- **Response:**  
+  ```json
+  {
+    "totalGames": 100,
+    "totalWins": 50
+  }
+  ```
+
+### /api/yourStats
+- **Purpose:** Get the authenticated user's statistics.
+- **Method:** `GET`
+- **Auth:** Required
+- **Response:**  
+  ```json
+  {
+    "gamesPlayed": 10,
+    "wins": 5
+  }
+  ```
+
+### /api/opponentStats
+- **Purpose:** Get statistics for the user's current opponent.
+- **Method:** `GET`
+- **Auth:** Required
+- **Response:**  
+  ```json
+  {
+    "gamesPlayed": 12,
+    "wins": 6
+  }
+  ```
+
+### /api/leaderboard
+- **Purpose:** Get the leaderboard.
+- **Method:** `GET`
+- **Auth:** Not required
+- **Response:**  
+  ```json
+  [
+    { "userId": "string", "wins": 10 }
+  ]
+  ```
+
+---
+
+## File Download
+
+### /api/download
+- **Purpose:** Download the user's assigned machine configuration (e.g., OVPN file).
+- **Method:** `POST`
+- **Auth:** Required
+- **Request:**  
+  ```json
+  {
+    "game_id": "string"
+  }
+  ```
+- **Response:**  
+  Returns a file (e.g., OVPN config) as a download.
+
+---
+
+## Admin Endpoints
+
+### /api/adminGetGames
+- **Purpose:** Get a list of all games (admin only).
+- **Method:** `GET`
+- **Auth:** Admin required
+- **Response:**  
+  ```json
+  [
+    { "gameId": "string", "status": "active" }
+  ]
+  ```
+
+### /api/adminGetUsers
+- **Purpose:** Get a list of all users (admin only).
+- **Method:** `GET`
+- **Auth:** Admin required
+- **Response:**  
+  ```json
+  [
+    { "userId": "string", "role": "user" }
+  ]
+  ```
+
+### /api/adminBanUser
+- **Purpose:** Ban a user (admin only).
+- **Method:** `POST`
+- **Auth:** Admin required
+- **Request:**  
+  ```json
+  {
+    "user_id": "string"
+  }
+  ```
+- **Response:**  
+  ```json
+  {
+    "success": true,
+    "message": "User banned"
+  }
+  ```
+
+### /api/adminUnbanUser
+- **Purpose:** Unban a user (admin only).
+- **Method:** `POST`
+- **Auth:** Admin required
+- **Request:**  
+  ```json
+  {
+    "user_id": "string"
+  }
+  ```
+- **Response:**  
+  ```json
+  {
+    "success": true,
+    "message": "User unbanned"
+  }
+  ```
+
+### /api/adminForceCloseGame/[gameId]
+- **Purpose:** Force close a game (admin only).
+- **Method:** `POST`
+- **Auth:** Admin required
+- **Request:**  
+  ```json
+  {}
+  ```
+- **Response:**  
+  ```json
+  {
+    "success": true,
+    "message": "Game closed"
+  }
+  ```
+
+---
+
+## Utility
+
+### /api/getUserRole
+- **Purpose:** Check if the current user is an admin.
+- **Method:** `POST`
+- **Auth:** Required
+- **Request:**  
+  ```json
+  {}
+  ```
+- **Response:**  
+  ```json
+  {
+    "isAdmin": true
+  }
+  ```
+
+---
+
+## Notes
+
+- Most endpoints require authentication via NextAuth JWT.
+- Admin endpoints require the user to have the `admin` role.
+- All endpoints log actions and errors for auditing and debugging.
+
+---
+
