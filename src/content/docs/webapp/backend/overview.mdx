@@ -1,0 +1,79 @@
+---
+title: Backend | Overview
+description: Overview of the webapp.
+---
+
+## Folder Structure
+The main components of the backend are located in the `lib` and `api` folders. Both folders are essential for establishing the database connection and ensuring full functionality.
+The `api` folder contains a total of 24 API endpoints. Each endpoint is protected to prevent unauthorized direct access.
+
+```sh
+├── app
+│   └── api
+│       ├── adminBanUser
+│       ├── adminForceCloseGame
+│       │   └── [gameId]
+│       ├── adminGetGames
+│       │   ├── [gameId]
+│       ├── adminGetSingleGame
+│       │   └── [gameId]
+│       ├── adminGetUsers
+│       ├── adminUnbanUser
+│       ├── auth
+│       │   └── [...nextauth]
+│       ├── checkGameState
+│       ├── checkReady
+│       ├── createGame
+│       ├── download
+│       ├── endGame
+│       ├── getGames
+│       ├── getStats
+│       ├── getUserRole
+│       ├── joinGame
+│       ├── leaderboard
+│       ├── leaveGame
+│       ├── leaveLobby
+│       ├── opponentStats
+│       ├── updateLobby
+│       ├── updateReady
+│       ├── userInGame
+│       └── yourStats
+├── components
+├── constants
+└── lib
+    ├── db.ts
+    ├── logger.ts
+    └── utils.ts
+```
+
+## Database Integration
+The database connection is managed using Prisma, which provides a clean and efficient ORM interface. Prisma also protects the system against SQL injection attacks by safely handling query parameters and abstracting direct SQL execution.
+
+## Logging
+Application logging is handled using the Winston logging library. Winston offers flexible and powerful logging capabilities, allowing structured logs with support for:
+
+- Timestamps
+- Log levels (e.g. info, warn, error)
+- ustom formats
+- Multiple transports (e.g. console, file, or external logging services)
+
+This makes it easy to monitor and debug application behavior in both development and production environments.
+
+## Example Env
+The web server requires specific environment variables to function properly. These variables are typically stored in a .env file at the root of the project.
+
+```
+//.env
+MYSQL_URL="mysql://<user>:<password>@<hostname>:<port>/<schemaName>?schema=public"
+
+AZURE_AD_CLIENT_ID="YourAzureClientID"
+AZURE_AD_CLIENT_SECRET="YourAzureClientSecret"
+AZURE_AD_TENANT_ID="YourAzureTenantID"
+
+NEXTAUTH_SECRET="YourNextAuthSecret"
+NEXTAUTH_URL="https://<yourDomain>/"  
+# Use http://localhost:3000 for local development
+```
+
+
+

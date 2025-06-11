@@ -2,3 +2,64 @@
 title: Frontend | Overview
 description: Overview of the webapp.
 ---
+
+## User Interface & UX
+
+The user interface design was originally inspired by [Hack The Box](https://www.hackthebox.com/).  
+The color palette has since been adapted to better suit the project's identity and can be viewed [here](https://coolors.co/9fef00-9aa3b2-0b121f-fafafa-e60000).
+
+### Logo
+
+The logo displayed below is the **only official and approved version**.  
+Its proportions and colors must **not** be modified under any circumstances.
+
+![Logo](../../../../assets/Logo.png)
+
+The website uses two main fonts:  
+- [Lato](https://fonts.google.com/specimen/Lato?preview.text=Hackwars&lang=de_Latn) for general text  
+- [Roboto Condensed](https://fonts.google.com/specimen/Roboto+Condensed?preview.text=HACKWARS) for headings  
+
+---
+
+## Technology Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) — used for building the frontend and server-side rendering  
+- **Runtime:** [Node.js](https://nodejs.org/) — executes server-side logic  
+- **Database Integration:** [Prisma](https://www.prisma.io/) — used as an ORM for database interaction (more details in the [Backend Overview](../backend/overview))
+
+
+## Component Structure
+Every page is represented as a separate folder within the app directory.
+Folders wrapped in brackets (e.g., [id]) indicate dynamically generated routes.
+Reusable components are placed in the components directory.
+If a component was imported using shadcn/ui, it resides in the components/ui subfolder.
+The constants file is used to define the navigation structure, making it easy to scale and add new entries without changing layout logic.
+The lib folder contains shared configuration files, such as:
+- The logging setup
+- The database connection
+
+
+```sh
+├── app
+│   ├── admin-panel
+│   │   ├── games
+│   │   │   └── [gameId]
+│   │   └── users
+│   ├── api
+│   ├── favicon.ico
+│   ├── games
+│   │   └── [id]
+│   ├── imprint
+│   ├── leaderboard
+│   └── (root)
+├── components
+│   └── ui
+├── constants
+└── lib
+```
+
+
+## Routing
+The routing in the application is based on the App Router where each route corresponds to a dedicated folder within the app directory.
+Dynamic routes are defined using square brackets, for example: /app/[gameId], allowing pages to be generated based on URL parameters.
+
